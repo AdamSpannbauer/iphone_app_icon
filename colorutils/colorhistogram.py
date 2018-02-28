@@ -2,6 +2,9 @@ import cv2
 import imutils
  
 class color_histogram:
+	"""
+	class to produce color histogram features given an input image
+	"""
 	def __init__(self, bins, color_space = 'bgr'):
 		# store the number of bins for the histogram
 		self.bins = bins
