@@ -1,8 +1,9 @@
+#this functionality is now in the function `utils.create_sorted_color_montage()`
 import cv2
 import glob
 import utils
 import imutils
-from colorutils import get_dominant_color
+from utils.colorutils import get_dominant_color
 
 # grab the image paths from the dataset directory
 image_paths = glob.glob('{}/*.jpg'.format('icons'))

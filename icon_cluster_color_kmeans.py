@@ -1,24 +1,30 @@
-#TODO: add sorting by color within color montage
 import cv2
 import glob
-import utils
 import argparse
-import colorutils
+import utils
+import utils.colorutils
 import numpy as np
 from sklearn.cluster import KMeans
+import random
 
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
 ap.add_argument("-d", "--dataset", default='icons',
 	help="path to the input dataset directory")
+ap.add_argument("-o", "--output", default='cluster_results',
+	help="path to the output directory")
 ap.add_argument("-k", "--clusters", type=int, default=5,
 	help="# of clusters to generate")
 ap.add_argument("-c", "--colorSpace", default='bgr',
 	help="color space to use (bgr, hsv, or lab); defaults to bgr")
+ap.add_argument("-s", "--randomseed", type=int, default=42,
+	help="random seed to set for repro results")
 args = vars(ap.parse_args())
 
+random.seed(args['randomseed'])
+
 # initialize the image descriptor along with the image matrix
-desc = colorutils.color_histogram([8, 8, 8], color_space = args['colorSpace'])
+desc = utils.colorutils.color_histogram([8, 8, 8], color_space = args['colorSpace'])
 data = []
 
 # grab the image paths from the dataset directory
@@ -41,14 +47,17 @@ for label in np.unique(labels):
 	# grab all image paths that are assigned to the current label
 	label_paths = image_paths[np.where(labels == label)]
 
-	montage = utils.results_montage(image.shape, 7, label_paths.shape[0])
+	sorted_montage = utils.create_sorted_color_montage(
+		label_paths, 
+		tile_size = (100,100),  
+		images_per_main_axis = 5, 
+		by_row = False, 
+		color_processing_size = (25,25),
+		verbose=False
+		)
 
-	# loop over the image paths that belong to the current label
-	for (i, path) in enumerate(label_paths):
-		# load the image and add to montage
-		image = cv2.imread(path)
-		montage.add_result(image)
-
-	cv2.imshow('cluster {}'.format(label), montage.montage)
+	cv2.imwrite('{}/cluster_{}.jpg'.format(args['output'], label), sorted_montage)
+	cv2.imshow('cluster {}'.format(label), sorted_montage)
 	# wait for a keypress and then close all open windows
 	cv2.waitKey(0)
+	cv2.destroyAllWindows()
