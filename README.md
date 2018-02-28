@@ -1,7 +1,9 @@
 # iPhone App Icons
 
 <p align='center'>
-  <img src='sorted_app_icons.jpg', width=85>
+  <kbd>
+    <img src='sorted_app_icons.jpg', width=600>
+  </kbd>
 </p>
 
 Repo for playing around with App Store app icons. Current scripts in repo:
