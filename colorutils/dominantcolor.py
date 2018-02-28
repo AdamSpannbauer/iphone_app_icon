@@ -2,7 +2,23 @@ from sklearn.cluster import KMeans
 from collections import Counter
 import cv2
 
-def get_dominant_color(image, k=4):
+def get_dominant_color(image, k=4, image_processing_size = None):
+	"""
+	takes an image as input and returns the dominant color in the image as a list
+	
+	dominant color is found by performing k means on the pixel colors and returning the centroid
+	of the largest cluster
+
+	processing time is sped up by working with a smaller image; this can be done with the 
+	image_processing_size param which takes a tuple of image dims as input
+
+	>>> get_dominant_color(my_image, k=4, image_processing_size = (25, 25))
+	[56.2423442, 34.0834233, 70.1234123]
+	"""
+	#resize image if new dims provided
+	if image_processing_size is not None:
+		image = cv2.resize(image, image_processing_size, interpolation = cv2.INTER_AREA)
+	
 	#reshape the image to be a list of pixels
 	image = image.reshape((image.shape[0] * image.shape[1], 3))
 
