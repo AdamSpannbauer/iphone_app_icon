@@ -21,7 +21,7 @@ for i, path in enumerate(image_paths):
 	colors.append(color)
 
 #sort colors (return list of image inds sorted)
-sorted_inds = sorted(range(len(colors)), key=lambda i: colors[i])
+sorted_inds = sorted(range(len(colors)), key=lambda i: colors[i], reverse=True)
 
 #init montage
 montage = utils.results_montage(image.shape, 10, len(image_paths))
