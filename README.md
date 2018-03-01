@@ -7,9 +7,11 @@
 </p>
 
 Repo for playing around with App Store app icons. Current scripts in repo:
+
 * [`download_top_chart_icons.py`](/download_top_chart_icons.py): script to download top chart app icons (**output in [icons dir](/icons)**)
 * [`sort_icons_by_color.py`](/sort_icons_by_color.py): sort app icons by hsv color space (**output shown above**)
 * [`icon_cluster_color_bovw_kmeans.py`](/icon_cluster_color_bovw_kmeans.py): use k means to cluster app icons by colors and/or keypoint features in the form of a bag of visual words  (**output shown below**)
+* [`create_bovw_features.py`](/create_bovw_features.py): use GFTT and RootSIFT to generate keypoint features for each icon, cluster the keypoints into a visual vocabularly, and apply vocab to the icons to create bag of visual word features (**output in [features_output dir](/features_output)**)
 
 ## Cluster output highlights
 
