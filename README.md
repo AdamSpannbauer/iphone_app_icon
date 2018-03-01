@@ -138,7 +138,7 @@ Below are 2 results from clustering using only the color features (while ignorin
 
 ### Using keypoint and color features
 
-Below are 2 results from clustering using both BOVW and color features.  The result on the right is especially interesting since the keypoints were able to match the word 'SLOTS' on both icons without the use of [OCR](https://en.wikipedia.org/wiki/Optical_character_recognition).  The result on the left seems to be driven mostly by color features.
+Below are 2 results from clustering using both BOVW and color features.  The result on the right is especially interesting since our features were able to match two apps showing the word 'SLOTS' without the use of [OCR](https://en.wikipedia.org/wiki/Optical_character_recognition).  The result on the left seems to be driven mostly by color features.
 
 <p align='center'>
   <kbd>
