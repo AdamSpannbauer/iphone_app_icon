@@ -1,7 +1,3 @@
-# USAGE
-# python index_features.py --dataset caltech5 --features-db output/features.hdf5 --approx-images 500
-
-# import the necessary packages
 from __future__ import print_function
 from features.descriptors import DetectAndDescribe
 from features.indexer import FeatureIndexer, BOVWIndexer
