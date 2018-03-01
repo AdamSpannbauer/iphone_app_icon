@@ -8,10 +8,53 @@
 
 Repo for playing around with App Store app icons. Current scripts in repo:
 
-* [`download_top_chart_icons.py`](/download_top_chart_icons.py): script to download top chart app icons (**output in [icons dir](/icons)**)
-* [`sort_icons_by_color.py`](/sort_icons_by_color.py): sort app icons by hsv color space (**output shown above**)
-* [`icon_cluster_color_bovw_kmeans.py`](/icon_cluster_color_bovw_kmeans.py): use k means to cluster app icons by colors and/or keypoint features in the form of a bag of visual words  (**output shown below**)
-* [`create_bovw_features.py`](/create_bovw_features.py): use GFTT and RootSIFT to generate keypoint features for each icon, cluster the keypoints into a visual vocabularly, and apply vocab to the icons to create bag of visual word features (**output in [features_output dir](/features_output)**)
+* [`download_top_chart_icons.py`](/download_top_chart_icons.py): script to download top chart app icons ([output in icons dir](/icons))
+* [`sort_icons_by_color.py`](/sort_icons_by_color.py): sort app icons by hsv color space ([output shown above](#iphone-app-icons))
+* [`demo_dominant_color.py`](/demo_dominant_color.py): takes an input image and displays the image's dominant color at different levels of k ([output shown below](#dominant-color-examples))
+* [`icon_cluster_color_bovw_kmeans.py`](/icon_cluster_color_bovw_kmeans.py): use k means to cluster app icons by colors and/or keypoint features in the form of a bag of visual words  ([output shown below](#cluster-output-highlights))
+* [`create_bovw_features.py`](/create_bovw_features.py): use GFTT and RootSIFT to generate keypoint features for each icon, cluster the keypoints into a visual vocabularly, and apply vocab to the icons to create bag of visual word features ([output in features_output dir](/features_output))
+
+## Dominant color examples
+
+The image at the top of the readme shows apps sorted by they're dominant color.  A good guess of how to find an image's dominant color might be to take the average of all the pixels' colors in the image.  It turns out that this isn't very representative of an image consistenting of more than hue.  To find an image's dominant color we can perform k means to cluster the pixel colors and then take the centroid value of the largest cluster.  The right value of k will hinge on the images you're working with, for app icons a setting k = 3 seems to perform well.
+
+*An additional note on dominant color: Images are typically stored in the [RGB colorspace](https://en.wikipedia.org/wiki/RGB_color_space), but the [HSV colorspace](https://en.wikipedia.org/wiki/HSV_color_space) relates more to how we perceive color. Because of this difference, all the dominant color calculations in this repo have been done in the HSV color space.*
+
+<p align='center'>
+  <table width="500" border="0" cellpadding="5">
+    <tr>
+        <td align="center" valign="center">
+            <img src="readme/dom_color_k_1.jpg"/>
+            <br/>
+            k = 1 (average color)
+        </td>
+        <td align="center" valign="center">
+            <img src="readme/dom_color_k_3.jpg"/>
+            <br/>
+            k = 3
+        </td>
+    </tr>
+</table>
+</p>
+
+<p align='center'>
+  <table width="500" border="0" cellpadding="5">
+    <tr>
+        <td align="center" valign="center">
+            <img src="readme/dom_color2_k_1.jpg"/>
+            <br/>
+            k = 1 (average color)
+        </td>
+        <td align="center" valign="center">
+            <img src="readme/dom_color2_k_2.jpg"/>
+            <br/>
+            k = 2
+        </td>
+    </tr>
+</table>
+</p>
+
+
 
 ## Cluster output highlights
 
