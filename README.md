@@ -8,13 +8,19 @@
 
 Repo for playing around with App Store app icons. Current scripts in repo:
 
+### Output producing scripts
+
 * [`download_top_chart_icons.py`](/download_top_chart_icons.py): script to download top chart app icons ([output in icons dir](/icons))
 * [`sort_icons_by_color.py`](/sort_icons_by_color.py): sort app icons by hsv color space ([output shown above](#iphone-app-icons))
 * [`demo_dominant_color.py`](/demo_dominant_color.py): takes an input image and displays the image's dominant color at different levels of k ([output shown below](#dominant-color-examples))
 * [`search.py`](/search.py): a mini image search engine; use chi-square distance to compare image features to a given query and return the top n most related results  ([output shown below](#search-output-highlights))
 * [`icon_cluster_color_bovw_kmeans.py`](/icon_cluster_color_bovw_kmeans.py): use k means to cluster app icons by colors and/or keypoint features in the form of a bag of visual words  ([output shown below](#cluster-output-highlights))
-* [`create_bovw_features.py`](/create_bovw_features.py): use GFTT and RootSIFT to generate keypoint features for each icon, cluster the keypoints into a visual vocabularly, and apply vocab to the icons to create bag of visual word features ([output in features_output dir](/features_output))
-* [`create_color_features.py`](/create_color_features.py): use color histograms to generate color features for each icon ([output in features_output dir](/features_output))
+
+### Feature generation scripts ([output in features_output dir](/features_output))
+
+* [`create_bovw_features.py`](/create_bovw_features.py): use GFTT and RootSIFT to generate keypoint features for each icon, cluster the keypoints into a visual vocabularly, and apply vocab to the icons to create bag of visual word features
+* [`create_color_features.py`](/create_color_features.py): use color histograms to generate color features for each icon
+* [`create_imagenet_features.py`](/create_imagenet_features.py): use pretrained resnet50 model from keras with imagenet weights to generate features for each icon
 
 ## Dominant color examples
 
@@ -99,6 +105,22 @@ The search using both color and BOVW features performs as well as we could have 
    &nbsp;&nbsp;&nbsp;&nbsp;
   <kbd>
     <img src='readme/candy_crush_full_search.png' width = 350>
+  </kbd>
+</p>
+
+### Using deeplearned features (late addition)
+
+An additional set of features was introduced to evaluate in this search setting.  Features were generated using the [keras resnet50](https://keras.io/applications/#resnet50) model that comes with pretrained weights produced with imagenet.  These features did not perform as well as BOVW + color features on the Toca Boca test.  However, these features performed exceptionally well in some cases as seen below.
+
+There were attempts to use these deeplearned features with the BOVW + color features, but due to the high number of resnet features produced (2048) they dominate the search.  Dimension reduction strategies (TSNE & PCA) were looked into to fix this issue, but the reduction in dimensions resulted in a huge loss in perceived performance.
+
+<p align='center'>
+  <kbd>
+    <img src='readme/togo_imnet_search.png' width = 350>
+  </kbd>
+   &nbsp;&nbsp;&nbsp;&nbsp;
+  <kbd>
+    <img src='readme/slot7s_imnet_search.png' width = 350>
   </kbd>
 </p>
 
