@@ -20,8 +20,8 @@
 # 	#read in im i
 # 	image = cv2.imread(path)
 # 	#get dominant color
-# 	color = get_dominant_color(cv2.cvtColor(image, cv2.COLOR_BGR2HSV), k=3, 
-# 		image_processing_size = (25, 25))
+	# color = get_dominant_color(cv2.cvtColor(image, cv2.COLOR_BGR2HSV), k=3, 
+	# 	image_processing_size = (25, 25))
 # 	#store color
 # 	colors.append(color)
 
