@@ -90,7 +90,7 @@ Below are 2 results from clustering using only the color features (while ignorin
 
 ### Using keypoint and color features
 
-Below are 2 results from clustering using both the keypoint and color features.
+Below are 2 results from clustering using both the keypoint and color features.  The result on the right is a little boring since it has 2 of the same icon, but this is reassuring that our clustering is keeping together identical images; if these we're in separate clusters we would have a problem in our features.
 
 <p align='center'>
   <kbd>
