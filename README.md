@@ -64,6 +64,8 @@ Note: The right value of k will hinge on the images you're working with, for app
 </table>
 </p>
 
+**************
+
 ## Search output highlights
 
 The main query image to be used in search engine examples will be the ['Toca Life: City'](https://itunes.apple.com/us/app/toca-life-city/id988318940?mt=8) icon.  There were a lot of apps by [Toca Boca AB](https://itunes.apple.com/us/developer/toca-boca-ab/id419103351?mt=8) in the top charts when the icons were scraped, and they all have similar artwork.  An ideal search engine would return all Toca Boca apps first when we search for icons similar to 'Toca Life: City'.
@@ -110,9 +112,15 @@ The search using both color and BOVW features performs as well as we could have 
 
 ### Using deeplearned features (late addition)
 
-An additional set of features was introduced to evaluate in this search setting.  Features were generated using the [keras resnet50](https://keras.io/applications/#resnet50) model that comes with pretrained weights produced with imagenet.  These features did not perform as well as BOVW + color features on the Toca Boca test.  However, these features performed exceptionally well in some cases as seen below.
+An additional set of features was introduced to evaluate in this search setting.  Features were generated using the [keras resnet50](https://keras.io/applications/#resnet50) model that comes with pretrained weights produced with imagenet.  These features did not perform as well as BOVW + color features on the Toca Boca test.  However, these features performed exceptionally well in some cases as seen below the Toca Boca result.
 
 There were attempts to use these deeplearned features with the BOVW + color features, but due to the high number of resnet features produced (2048) they dominate the search.  Dimension reduction strategies (TSNE & PCA) were looked into to fix this issue, but the reduction in dimensions resulted in a huge loss in perceived performance.
+
+<p align='center'>
+  <kbd>
+    <img src='readme/toca_imnet_search.png' width = 350>
+  </kbd>
+</p>
 
 <p align='center'>
   <kbd>
@@ -123,6 +131,8 @@ There were attempts to use these deeplearned features with the BOVW + color feat
     <img src='readme/slot7s_imnet_search.png' width = 350>
   </kbd>
 </p>
+
+******************
 
 ## Cluster output highlights
 
