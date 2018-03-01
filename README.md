@@ -16,7 +16,7 @@ Repo for playing around with App Store app icons. Current scripts in repo:
 
 ## Dominant color examples
 
-The image at the top of the readme shows apps sorted by they're dominant color.  A good guess of how to find an image's dominant color might be to take the average of all the pixels' colors in the image.  It turns out that this isn't very representative of an image consistenting of more than hue.  To find an image's dominant color we can perform k means to cluster the pixel colors and then take the centroid value of the largest cluster.  The right value of k will hinge on the images you're working with, for app icons a setting k = 3 seems to perform well.
+The image at the top of the readme shows apps sorted by their dominant color.  A good guess of how to find an image's dominant color might be to take the average of all the pixels' colors in the image.  It turns out that this isn't very representative of an image consistenting of more than hue.  To find an image's dominant color we can perform k means to cluster the pixel colors and then take the centroid value of the largest cluster.  The right value of k will hinge on the images you're working with, for app icons a setting k = 3 seems to perform well.
 
 *An additional note on dominant color: Images are typically stored in the [RGB colorspace](https://en.wikipedia.org/wiki/RGB_color_space), but the [HSV colorspace](https://en.wikipedia.org/wiki/HSV_color_space) relates more to how we perceive color. Because of this difference, all the dominant color calculations in this repo have been done in the HSV color space.*
 
