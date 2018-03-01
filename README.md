@@ -11,8 +11,10 @@ Repo for playing around with App Store app icons. Current scripts in repo:
 * [`download_top_chart_icons.py`](/download_top_chart_icons.py): script to download top chart app icons ([output in icons dir](/icons))
 * [`sort_icons_by_color.py`](/sort_icons_by_color.py): sort app icons by hsv color space ([output shown above](#iphone-app-icons))
 * [`demo_dominant_color.py`](/demo_dominant_color.py): takes an input image and displays the image's dominant color at different levels of k ([output shown below](#dominant-color-examples))
+* [`search.py`](/search.py): a mini image search engine; use chi-square distance to compare image features to a given query and return the top n most related results  ([output shown below](#search-output-highlights))
 * [`icon_cluster_color_bovw_kmeans.py`](/icon_cluster_color_bovw_kmeans.py): use k means to cluster app icons by colors and/or keypoint features in the form of a bag of visual words  ([output shown below](#cluster-output-highlights))
 * [`create_bovw_features.py`](/create_bovw_features.py): use GFTT and RootSIFT to generate keypoint features for each icon, cluster the keypoints into a visual vocabularly, and apply vocab to the icons to create bag of visual word features ([output in features_output dir](/features_output))
+* [`create_color_features.py`](/create_color_features.py): use color histograms to generate color features for each icon ([output in features_output dir](/features_output))
 
 ## Dominant color examples
 
@@ -54,7 +56,49 @@ The image at the top of the readme shows apps sorted by their dominant color.  A
 </table>
 </p>
 
+## Search output highlights
 
+The main query image to be used in search engine examples will be the ['Toca Life: City'](https://itunes.apple.com/us/app/toca-life-city/id988318940?mt=8) icon.  There were a lot of apps by [Toca Boca AB](https://itunes.apple.com/us/developer/toca-boca-ab/id419103351?mt=8) in the top charts when the icons were scraped, and they all have similar artwork.  An ideal search would return all Toca Boca apps first when we search for icons similar to 'Toca Life: City'.
+
+### Using only keypoint features
+
+The search using only bag of visual word features performs fairly well, we found 2 of the other Toca Boca apps in the top 5 results.  The introduction of color features would likely weed out the [Yu-Gi-Oh! Duel Links](https://itunes.apple.com/us/app/yu-gi-oh-duel-links/id1068378177?mt=8) result.
+
+Notice that we also return the query image itself with a dist of 0; this is an uninteresting result, but it reassures us that our distance metric is doing what we mean it to.
+
+<p align='center'>
+  <kbd>
+    <img src='readme/toca_bovw_search.png' width = 350>
+  </kbd>
+</p>
+
+### Using only color features
+
+The search using only color features performs arguably better than the BOVW only search.  Again we found 2 of the other Toca Boca apps, but this time they are the first 2 icons proposed.  It is of note that ['Toca Life: Hospital'](https://itunes.apple.com/us/app/toca-life-hospital/id1156114278?mt=8) stayed in our top results; this icon is so similar to our query icon that it is returned no matter which feature set we used.  Despite keeping Toca Life: Hospital, we lost our other Toca Boca result when we dropped the BOVW features.
+
+<p align='center'>
+  <kbd>
+    <img src='readme/toca_color_search.png' width = 350>
+  </kbd>
+</p>
+
+### Using keypoint and color features
+
+The search using both color and BOVW features performs as well as we could have hoped.  All of our top 5 results are apps from the Toca Boca family.
+
+[Candy Crush](https://itunes.apple.com/us/app/candy-crush-saga/id553834731?mt=8) is another group of apps to test our engine out on.  Searching with [Candy Crush Jelly Saga](https://itunes.apple.com/us/app/candy-crush-jelly-saga/id1047246341?mt=8) shows another great result.
+
+Other icon queries produce interesting results in our engine, but these examples were shown since they're rare cases where they have arguably 'right' results (due to them being in such popular 'families' of apps).
+
+<p align='center'>
+  <kbd>
+    <img src='readme/toca_full_search.png' width = 350>
+  </kbd>
+   &nbsp;&nbsp;&nbsp;&nbsp;
+  <kbd>
+    <img src='readme/candy_crush_full_search.png' width = 350>
+  </kbd>
+</p>
 
 ## Cluster output highlights
 
@@ -90,7 +134,7 @@ Below are 2 results from clustering using only the color features (while ignorin
 
 ### Using keypoint and color features
 
-Below are 2 results from clustering using both the keypoint and color features.  The result on the right is a little boring since it has 2 of the same icon, but this is reassuring that our clustering is keeping together identical images; if these we're in separate clusters we would have a problem in our features.
+Below are 2 results from clustering using both the keypoint and color features.  The result on the right is especially interesting since the keypoints were able to match the word 'SLOTS' on both icons without the use of OCR.  The result on the left seems to be driven mostly by color features.
 
 <p align='center'>
   <kbd>
@@ -98,6 +142,6 @@ Below are 2 results from clustering using both the keypoint and color features. 
   </kbd>
   &nbsp;&nbsp;&nbsp;&nbsp;
   <kbd>
-    <img src='readme/homescapes_myshelf_bovw_color_cluster.jpg' height=200>
+    <img src='readme/slots_bovw_color_cluster.jpg' height=200>
   </kbd>
 </p>
