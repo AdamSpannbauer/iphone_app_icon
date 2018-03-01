@@ -1,8 +1,3 @@
-# USAGE
-# python search.py --index index.csv --dataset ../ukbench --relevant ../ukbench/relevant.json \
-# 	--query ../ukbench/ukbench00980.jpg
-
-# import the necessary packages
 from __future__ import print_function
 import argparse
 import imutils
