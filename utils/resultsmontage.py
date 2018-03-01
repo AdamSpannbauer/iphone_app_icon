@@ -17,9 +17,9 @@ class results_montage:
 		# allocate memory for the output image
 		num_main_axis = -(-num_results // images_per_main_axis) #ceiling division
 		if by_row:
-			self.montage = np.zeros((num_main_axis * self.imageW, images_per_main_axis * self.imageH, 3), dtype="uint8")
+			self.montage = np.zeros((num_main_axis * self.imageW, min(images_per_main_axis, num_results) * self.imageH, 3), dtype="uint8")
 		else:
-			self.montage = np.zeros((images_per_main_axis * self.imageW, num_main_axis * self.imageH, 3), dtype="uint8")
+			self.montage = np.zeros((min(images_per_main_axis, num_results) * self.imageW, num_main_axis * self.imageH, 3), dtype="uint8")
 
 
 		# initialize the counter for the current image along with the row and column
