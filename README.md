@@ -71,6 +71,8 @@ One possible application of this dominant color extraction is for use in plots. 
 
 The plot avoids the issue of apps having similiar/identical dominant colors.  A strategy of using secondary colors and/or adjusting colors to be disimilar could likely a strategy to deal with these issues when they come up.
 
+*Note the plot data is just a random walk, it doesn't actually relate to any app metric (on purpose)*
+
 <p align='center'>
   <kbd>
     <img src='readme/app_color_line_graph.png' width=500>
