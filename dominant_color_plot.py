@@ -59,6 +59,7 @@ for name, path in apps_of_interest.items():
 	#append trace to plot data
 	plot_traces.append(trace)
 
+#set plot formating/titles
 layout = go.Layout(
 		title = "App Trends in Fake Statistic",
 		xaxis = dict(
@@ -68,6 +69,7 @@ layout = go.Layout(
 			)
 		)
 
+#create plot figure
 fig = go.Figure(data=plot_traces, layout=layout)
 
 #produce plot output
