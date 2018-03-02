@@ -15,6 +15,7 @@ Repo for playing around with App Store app icons. Current scripts in repo:
 * [`demo_dominant_color.py`](/demo_dominant_color.py): takes an input image and displays the image's dominant color at different levels of k ([output shown below](#dominant-color-examples))
 * [`search.py`](/search.py): a mini image search engine; use chi-square distance to compare image features to a given query and return the top n most related results  ([output shown below](#search-output-highlights))
 * [`icon_cluster_color_bovw_kmeans.py`](/icon_cluster_color_bovw_kmeans.py): use k means to cluster app icons by colors and/or keypoint features in the form of a bag of visual words  ([output shown below](#cluster-output-highlights))
+* [`dominant_color_plot.py`](/dominant_color_plot.py): a plot showing how dominant colors of app icons might be useful for user experience reporting
 
 ### Feature generation scripts ([output in features_output dir](/features_output))
 
@@ -62,6 +63,18 @@ Note: The right value of k will hinge on the images you're working with, for app
         </td>
     </tr>
 </table>
+</p>
+
+### Who cares?
+
+One possible application of this dominant color extraction is for use in plots.  A user who is familiar with a popular app will recognize its color in a plot and this could help make the user experience simpler.  An example plot with fake data shows this concept below.
+
+The plot avoids the issue of apps having similiar/identical dominant colors.  A strategy of using secondary colors and/or adjusting colors to be disimilar could likely a strategy to deal with these issues when they come up.
+
+<p align='center'>
+  <kbd>
+    <img src='readme/app_color_line_graph.png' width=500>
+  </kbd>
 </p>
 
 **************
