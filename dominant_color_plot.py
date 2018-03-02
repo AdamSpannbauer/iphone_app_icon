@@ -5,6 +5,8 @@ import random
 import cv2
 import numpy as np
 
+random.seed(1337)
+
 #apps to plot
 apps_of_interest = {'Facebook': 'free-apps_facebook.jpg',
 					'WhatsApp': 'free-apps_whatsapp_messenger.jpg',
@@ -28,10 +30,14 @@ def gen_random_walk(start=100, n_steps=50, num_range=(-100,100), new_step_chance
 plot_traces = []
 #xaxis data
 plot_x = range(1,101)
+plot_images = []
 #iterate over app
 for name, path in apps_of_interest.items():
 	#gen data
-	app_data = gen_random_walk(start=random.randrange(1000,2000), new_step_chance=0.3)
+	app_data = gen_random_walk(
+		start=random.randrange(1000,2000), 
+		n_steps = len(plot_x)-1,
+		new_step_chance=0.3)
 	#read in image
 	bgr_image = cv2.imread('icons/{}'.format(path))
 	#convert to HSV; this is a better representation of how we see color
@@ -56,16 +62,33 @@ for name, path in apps_of_interest.items():
 		'width': 3
 		}
 		)
+	image_url = 'https://raw.githubusercontent.com/AdamSpannbauer/iphone_app_icon/master/icons/{}'
+	plot_image = dict(
+		source = image_url.format(path),
+		xref = 'x',
+		yref = 'y',
+		x = plot_x[-1],
+		y = app_data[-1],
+		xanchor='left',
+		yanchor = 'middle',
+		sizex = 5,
+		sizey = 250,
+		sizing='stretch',
+		layer='above'
+		)
 	#append trace to plot data
 	plot_traces.append(trace)
+	plot_images.append(plot_image)
 
 #set plot formating/titles
 layout = go.Layout(
+		images = plot_images,
 		title = "App Trends in Fake Statistic",
 		xaxis = dict(
 			showticklabels = False,
 			ticks = '',
-			title = 'Time (probably)'
+			title = 'Time (probably)',
+			range = [min(plot_x), max(plot_x) + 10]
 			)
 		)
 
