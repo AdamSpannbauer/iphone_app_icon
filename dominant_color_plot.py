@@ -5,6 +5,7 @@ import random
 import cv2
 import numpy as np
 
+#reproducable
 random.seed(1337)
 
 #apps to plot
@@ -13,17 +14,33 @@ apps_of_interest = {'Facebook': 'free-apps_facebook.jpg',
 					'Waze': 'free-apps_waze_navigation_live_traffic.jpg',
 					'Soundcloud': 'free-apps_soundcloud_music_audio.jpg'}
 
-#function to gen random stats
-def gen_random_walk(start=100, n_steps=50, num_range=(-100,100), new_step_chance=0.5):
+#function to gen random walk for fake app data
+def gen_random_walk(start=100, n_steps=50, num_range=(-100,100), 
+					new_step_chance=0.5):
+	"""
+	inputs:
+		start - start value for walk
+		n_steps - number of steps to take from starting point
+		num_range - range of values to sample for steps
+		new_step_chance - probability of taking step different 
+						  from last step (ie if 0 then all steps will be 
+						  same value)
+	output: list of values in walk
+	"""
+	#init start point for walk
 	walk = [start]
+	#gen a default step
 	step_val = random.randrange(num_range[0], num_range[1])
 	for i in range(n_steps):
 		#chance to take a new step or take last step again
 		if random.random() > (1-new_step_chance):
+			#update step value
 			step_val = random.randrange(num_range[0], num_range[1])
+		#add step to last position
 		new_pos = walk[i-1] + step_val
-
+		#append new position to walk history
 		walk.append(new_pos)
+
 	return walk
 
 #init plotly trace storage
@@ -62,7 +79,9 @@ for name, path in apps_of_interest.items():
 		'width': 3
 		}
 		)
+	#base url to include images in plotly plot
 	image_url = 'https://raw.githubusercontent.com/AdamSpannbauer/iphone_app_icon/master/icons/{}'
+	#create plotly image dict
 	plot_image = dict(
 		source = image_url.format(path),
 		xref = 'x',
@@ -71,7 +90,7 @@ for name, path in apps_of_interest.items():
 		y = app_data[-1],
 		xanchor='left',
 		yanchor = 'middle',
-		sizex = 5,
+		sizex = 5.5,
 		sizey = 250,
 		sizing='stretch',
 		layer='above'
@@ -80,15 +99,19 @@ for name, path in apps_of_interest.items():
 	plot_traces.append(trace)
 	plot_images.append(plot_image)
 
-#set plot formating/titles
+#drop legend, add images to plot,
+#remove tick marks, increase x axis range to not cut off images
 layout = go.Layout(
+		showlegend=False,
 		images = plot_images,
-		title = "App Trends in Fake Statistic",
 		xaxis = dict(
 			showticklabels = False,
 			ticks = '',
-			title = 'Time (probably)',
 			range = [min(plot_x), max(plot_x) + 10]
+			),
+		yaxis = dict(
+			showticklabels = False,
+			ticks = ''
 			)
 		)
 
@@ -96,7 +119,8 @@ layout = go.Layout(
 fig = go.Figure(data=plot_traces, layout=layout)
 
 #produce plot output
-plot(fig, config={'displayModeBar': False})
+plot(fig, config={'displayModeBar': False},	
+		filename='readme/app_plot.html')
 
 
 
