@@ -49,7 +49,7 @@ class results_montage:
 		# if the text is not None, draw it
 		if text is not None:
 			cv2.putText(self.montage, text, (startX + 5, startY + 13), cv2.FONT_HERSHEY_SIMPLEX,
-				.5, (0, 0, 255), 1)
+				.5, (0, 0, 255), 2)
 
 		# check to see if the result should be highlighted
 		if highlight:
