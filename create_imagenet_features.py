@@ -24,7 +24,7 @@ ap.add_argument("-o", "--output", default='features_output/imagenet_features.csv
 args = vars(ap.parse_args())
 
 #load image net weights but dont include classification layer
-model = ResNet50(weights='imagenet', include_top=False)
+model = ResNet50(weights='imagenet', include_top=False, pooling='avg')
 
 #read in image paths in dataset
 image_paths = glob.glob('{}/*'.format(args['dataset']))
@@ -44,10 +44,8 @@ for i, image_path in enumerate(image_paths):
 	image = image_preprocessor(image_path)
 	#extract features
 	features = model.predict(image)
-	#flatten features
-	features = np.ravel(features)
 	#write image path and feature values as row in csv
-	feat_str = [str(x) for x in features]
+	feat_str = [str(x) for x in features[0]]
 	out_file.write('{},{}\n'.format(image_path, ','.join(feat_str)))
 
 #close output file
