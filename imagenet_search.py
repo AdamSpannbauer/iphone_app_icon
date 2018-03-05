@@ -71,9 +71,9 @@ results = sorted([(v, k) for (k, v) in results.items()])[:args["numResults"]]
 
 #init montage to display results
 montage = utils.results_montage(image_size = (100, 100), 
-								images_per_main_axis = 5, 
-								num_results = args['numResults'],
-								by_row = True)
+				images_per_main_axis = 5, 
+				num_results = args['numResults'],
+				by_row = True)
 
 # loop over the results to add image to montage
 for (i, (score, path)) in enumerate(results):
