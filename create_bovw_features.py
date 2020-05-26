@@ -37,7 +37,10 @@ print('\n\n STARTING FEATURE EXTRACTION \n\n')
 # initialize the keypoint detector, local invariant descriptor, and the descriptor
 # pipeline
 detector = FeatureDetector_create('GFTT')
-descriptor = DescriptorExtractor_create('RootSIFT')
+
+# RootSIFT was originally used in results presented in blog/README
+# ORB was substituted since RootSIFT is not currently shipped with opencv-contrib-python
+descriptor = DescriptorExtractor_create('ORB')
 dad = DetectAndDescribe(detector, descriptor)
 
 # initialize the feature indexer, then grab the image paths and sort
