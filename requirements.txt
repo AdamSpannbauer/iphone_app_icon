@@ -1,0 +1,17 @@
+numpy
+pandas
+
+requests
+bs4
+
+opencv-contrib-python
+imutils
+
+Pillow
+tensorflow >= 2.2.0
+h5py
+
+scikit-learn
+scipy
+
+plotly

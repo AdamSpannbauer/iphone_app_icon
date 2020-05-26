@@ -3,6 +3,7 @@ from sklearn.metrics import pairwise
 from scipy.sparse import csr_matrix
 import numpy as np
 
+
 class BagOfVisualWords:
 	def __init__(self, codebook, sparse=True):
 		# store the codebook used to compute the bag-of-visual-words representation
@@ -20,8 +21,7 @@ class BagOfVisualWords:
 
 		# check to see if a sparse histogram should be constructed
 		if self.sparse:
-			hist = csr_matrix((counts, (np.zeros((len(words),)), words)),
-				shape=(1, len(self.codebook)), dtype="float")
+			hist = csr_matrix((counts, (np.zeros((len(words),)), words)), shape=(1, len(self.codebook)), dtype="float")
 
 		# otherwise, construct a dense histogram of visual word counts
 		else:
