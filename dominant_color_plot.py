@@ -76,7 +76,7 @@ for name, path in apps_of_interest.items():
     rgb = [str(c) for c in rgb]
     # create plotly trace of line
     trace = go.Scatter(
-        x=plot_x,
+        x=list(plot_x),
         y=app_data,
         mode='lines',
         name=name,
