@@ -1,0 +1,16 @@
+numpy
+pandas
+
+requests
+bs4
+
+opencv-contrib-python
+imutils
+
+keras
+h5py
+
+scikit-learn
+scipy
+
+plotly
