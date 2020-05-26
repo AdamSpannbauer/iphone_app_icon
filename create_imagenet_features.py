@@ -3,10 +3,9 @@ import argparse
 
 import numpy as np
 
-import keras
-from keras.applications.resnet50 import ResNet50
-from keras.preprocessing import image as image_utils
-from keras.applications.imagenet_utils import preprocess_input
+from tensorflow.keras.applications.resnet50 import ResNet50
+from tensorflow.keras.preprocessing import image as image_utils
+from tensorflow.keras.applications.imagenet_utils import preprocess_input
 
 
 # define image preprocessor for use with imagenet model
