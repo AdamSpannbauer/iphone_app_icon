@@ -16,7 +16,7 @@ import utils
 
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
-ap.add_argument("-i", "--input", required=True,
+ap.add_argument("-i", "--input", default='icons',
                 help="Path to the dir that contains the images to be sorted")
 ap.add_argument("-o", "--output", default='sorted_images.jpg',
                 help="Path to the dir to write feature output to")
