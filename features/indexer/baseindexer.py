@@ -3,9 +3,9 @@ from __future__ import print_function
 import numpy as np
 import datetime
 
+
 class BaseIndexer(object):
-	def __init__(self, dbPath, estNumImages=500, maxBufferSize=50000, dbResizeFactor=2,
-		verbose=True):
+	def __init__(self, dbPath, estNumImages=500, maxBufferSize=50000, dbResizeFactor=2, verbose=True):
 		# store the database path, estimated number of images in the dataset, max
 		# buffer size, the resize factor of the database and the verbosity setting
 		self.dbPath = dbPath
@@ -65,8 +65,7 @@ class BaseIndexer(object):
 
 		# show the old versus new size of the dataset
 		dataset.resize(tuple(shape))
-		self._debug("old size of `{}`: {:,}; new size: {:,}".format(dbName, origSize,
-			newSize))
+		self._debug("old size of `{}`: {:,}; new size: {:,}".format(dbName, origSize, newSize))
 
 	def _debug(self, msg, msgType="[INFO]"):
 		# check to see the message should be printed

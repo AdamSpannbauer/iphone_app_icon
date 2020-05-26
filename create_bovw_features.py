@@ -1,29 +1,32 @@
 from __future__ import print_function
+import pickle
+import argparse
+
+import cv2
+import h5py
+
+import imutils
+from imutils import paths
+from imutils.feature import FeatureDetector_create, DescriptorExtractor_create
+
 from features.descriptors import DetectAndDescribe
 from features.indexer import FeatureIndexer, BOVWIndexer
 from features.ir import Vocabulary, BagOfVisualWords
-from imutils.feature import FeatureDetector_create, DescriptorExtractor_create
-from imutils import paths
-import pickle
-import h5py
-import argparse
-import imutils
-import cv2
 
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
 ap.add_argument("-d", "--dataset", default='icons',
-	help="Path to the dir that contains the images to be indexed")
+                help="Path to the dir that contains the images to be indexed")
 ap.add_argument("-o", "--output", default='features_output',
-	help="Path to the dir to write feature output to")
+                help="Path to the dir to write feature output to")
 ap.add_argument("-a", "--approx-images", type=int, default=300,
-	help="Approximate # of images in the dataset")
+                help="Approximate # of images in the dataset")
 ap.add_argument("-k", "--clusters", type=int, default=200,
-	help="# of clusters to generate")
+                help="# of clusters to generate")
 ap.add_argument("-p", "--percentage", type=float, default=0.5,
-	help="Percentage of total features to use when clustering")
+                help="Percentage of total features to use when clustering")
 ap.add_argument("-b", "--max-buffer-size", type=int, default=50000,
-	help="Maximum buffer size for # of features to be stored in memory")
+                help="Maximum buffer size for # of features to be stored in memory")
 args = vars(ap.parse_args())
 
 ##################
@@ -39,37 +42,37 @@ dad = DetectAndDescribe(detector, descriptor)
 
 # initialize the feature indexer, then grab the image paths and sort
 fi = FeatureIndexer(
-	'{}/features.hdf5'.format(args["output"]),
-	estNumImages=args["approx_images"],
-	maxBufferSize=args["max_buffer_size"], 
-	verbose=True)
+    '{}/features.hdf5'.format(args["output"]),
+    estNumImages=args["approx_images"],
+    maxBufferSize=args["max_buffer_size"],
+    verbose=True)
 imagePaths = list(paths.list_images(args["dataset"]))
 imagePaths.sort()
 
 # loop over the images in the dataset
 for (i, imagePath) in enumerate(imagePaths):
-	# check to see if progress should be displayed
-	if i > 0 and i % 50 == 0:
-		fi._debug("processed {} images".format(i), msgType="[PROGRESS]")
+    # check to see if progress should be displayed
+    if i > 0 and i % 50 == 0:
+        fi._debug("processed {} images".format(i), msgType="[PROGRESS]")
 
-	# load the image and prepare it from description
-	image = cv2.imread(imagePath)
-	image = imutils.resize(image, width=min(320, image.shape[1]))
-	image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    # load the image and prepare it from description
+    image = cv2.imread(imagePath)
+    image = imutils.resize(image, width=min(320, image.shape[1]))
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-	# describe the image
-	(kps, descs) = dad.describe(image)
+    # describe the image
+    (kps, descs) = dad.describe(image)
 
-	# if either the keypoints or descriptors are None, then ignore the image
-	if kps is None or descs is None:
-		continue
+    # if either the keypoints or descriptors are None, then ignore the image
+    if kps is None or descs is None:
+        continue
 
-	# index the features
-	fi.add(imagePath, kps, descs)
+    # index the features
+    fi.add(imagePath, kps, descs)
 
 # finish the indexing process
 fi.finish()
-#---------------------------------------------
+# ---------------------------------------------
 
 ##################
 # CREATE VOCAB
@@ -85,7 +88,7 @@ print("[INFO] storing cluster centers...")
 f = open('{}/vocab.cpickle'.format(args["output"]), "wb")
 f.write(pickle.dumps(vocab))
 f.close()
-#---------------------------------------------
+# ---------------------------------------------
 
 ##################
 # CREATE BOVW FEATURES
@@ -97,28 +100,26 @@ bovw = BagOfVisualWords(vocab)
 # open the features database and initialize the bag-of-visual-words indexer
 featuresDB = h5py.File('{}/features.hdf5'.format(args["output"]), mode="r")
 bi = BOVWIndexer(bovw.codebook.shape[0], '{}/bovw.hdf5'.format(args["output"]),
-	estNumImages=featuresDB["image_ids"].shape[0],
-	maxBufferSize=args["max_buffer_size"])
+                 estNumImages=featuresDB["image_ids"].shape[0],
+                 maxBufferSize=args["max_buffer_size"])
 
 # loop over the image IDs and index
 for (i, (imageID, offset)) in enumerate(zip(featuresDB["image_ids"], featuresDB["index"])):
-	# check to see if progress should be displayed
-	if i > 0 and i % 50 == 0:
-		bi._debug("processed {} images".format(i), msgType="[PROGRESS]")
+    # check to see if progress should be displayed
+    if i > 0 and i % 50 == 0:
+        bi._debug("processed {} images".format(i), msgType="[PROGRESS]")
 
-	# extract the feature vectors for the current image using the starting and
-	# ending offsets (while ignoring the keypoints) and then quantize the
-	# features to construct the bag-of-visual-words histogram
-	features = featuresDB["features"][offset[0]:offset[1]][:, 2:]
-	hist = bovw.describe(features)
+    # extract the feature vectors for the current image using the starting and
+    # ending offsets (while ignoring the keypoints) and then quantize the
+    # features to construct the bag-of-visual-words histogram
+    features = featuresDB["features"][offset[0]:offset[1]][:, 2:]
+    hist = bovw.describe(features)
 
-	# normalize the histogram such that it sums to one then add the
-	# bag-of-visual-words to the index
-	hist /= hist.sum()
-	bi.add(hist)
+    # normalize the histogram such that it sums to one then add the
+    # bag-of-visual-words to the index
+    hist /= hist.sum()
+    bi.add(hist)
 
 # close the features database and finish the indexing process
 featuresDB.close()
 bi.finish()
-
-

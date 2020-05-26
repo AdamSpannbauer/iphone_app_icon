@@ -1,9 +1,10 @@
 # import the necessary packages
 from __future__ import print_function
-from sklearn.cluster import MiniBatchKMeans
-import numpy as np
 import datetime
+import numpy as np
+from sklearn.cluster import MiniBatchKMeans
 import h5py
+
 
 class Vocabulary:
 	def __init__(self, dbPath, verbose=True):
@@ -20,7 +21,7 @@ class Vocabulary:
 		# sample, sorting them in ascending order to speedup access time from the
 		# HDF5 database
 		sampleSize = int(np.ceil(samplePercent * totalFeatures))
-		idxs = np.random.choice(np.arange(0, totalFeatures), (sampleSize), replace=False)
+		idxs = np.random.choice(np.arange(0, totalFeatures), sampleSize, replace=False)
 		idxs.sort()
 		data = []
 		self._debug("starting sampling...")
