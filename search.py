@@ -1,3 +1,12 @@
+"""Warning:
+
+This process assumes that the output of create_bovw_features.py, create_color_features.py,
+and create_imagenet_features.py have been run without error.  If this assumption fails, there
+will be an error in a np.hstack operation.  This indicates that some images failed and this resulted
+in an uneven number of records between the feature output.  A solution would be to use keys and join
+rather than assume same number of records and that records align.
+"""
+
 from __future__ import print_function
 import argparse
 
